@@ -9,7 +9,7 @@ st.set_page_config(
     layout="wide"
 )
 
-url = "http://127.0.0.1:8000"
+url = "http://3.238.80.219:8000"
 
 st.title("⚖️ ClauseGuard: Legal PDF Auditor & Risk Agent")
 st.markdown(

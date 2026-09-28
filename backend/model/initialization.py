@@ -1,7 +1,7 @@
 from langchain.agents import create_agent
 from langchain_core.tools import create_retriever_tool
 from langchain_groq import ChatGroq
-from VectorDB.Retriever import retriever
+from VectorDB.Retriever import search_document
 from db_setup.connection import checkpointer
 import config
 
@@ -31,14 +31,6 @@ final_model = ChatGroq(
 
 model_with_fallbacks = primary_model.with_fallbacks([secondary_model, tertiary_model, final_model])
 
-retriever_tool = create_retriever_tool(
-    retriever,
-    name="search_document",
-    description=(
-        "Search the uploaded legal document for relevant clauses, "
-        "terms, conditions, obligations, risks, deadlines and other information."
-    )
-)
 
 system_prompt = """
 You are a legal document analysis assistant.
@@ -62,7 +54,7 @@ Provide answers in precise, plain language.
 
 agent = create_agent(
     model = model_with_fallbacks,
-    tools = [retriever_tool],
+    tools = [search_document],
     system_prompt=system_prompt,
     checkpointer=checkpointer
 )
